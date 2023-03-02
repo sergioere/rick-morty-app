@@ -1,0 +1,32 @@
+import React, { useState, useEffect } from 'react';
+import { Box, Heading, Text, Image, Flex } from '@chakra-ui/react';
+import axios from 'axios';
+function Character() {
+    const [character, setCharacter] = useState(null);
+  
+    useEffect(() => {
+      axios.get('https://rickandmortyapi.com/api/character/1')
+        .then(response => {
+          setCharacter(response.data);
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    }, []);
+  
+    if (!character) {
+      return <div>Loading...</div>;
+    }
+  
+    return (
+      <Box borderWidth="1px" borderRadius="lg" overflow="hidden" padding="3">
+        <Image src={character.image} alt={character.name} />
+        <Heading as="h2" size="lg" marginBottom="2">{character.name}</Heading>
+        <Text><strong>Status:</strong> {character.status}</Text>
+        <Text><strong>Species:</strong> {character.species}</Text>
+        <Text><strong>Gender:</strong> {character.gender}</Text>
+      </Box>
+    );
+  }
+  
+  export default Character;
